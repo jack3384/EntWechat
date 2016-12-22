@@ -176,7 +176,7 @@ class MsgFormater
         }
         if(is_array($user)){
             $txt["to{$type}"]=implode("|",$user);
-        }elseif(is_string($user)){
+        }elseif(is_string($user)||is_numeric($user)){
             if($user=='all'){
                 $txt['touser']='@all';
             }else{
