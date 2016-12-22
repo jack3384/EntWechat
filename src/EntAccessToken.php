@@ -21,9 +21,9 @@ class EntAccessToken
             throw new \Exception('请配置EntConfig.php文件');
         }
         $this->appID=$this->queryString['corpId'];
-        $this->useCache=$this->$mpConfig['useCache'];
-        $this->cachePath=$this->$mpConfig['cachePath'];
-        $this->expireTime=$this->$mpConfig['expire'];
+        $this->useCache=$mpConfig['useCache'];
+        $this->cachePath=$mpConfig['cachePath'];
+        $this->expireTime=$mpConfig['expire'];
         //开启缓存，注意目录写权限
         if($this->useCache){
             $this->cache= new FileCache($this->cachePath);
