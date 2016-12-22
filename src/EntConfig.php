@@ -5,6 +5,6 @@ return array(
     'corpId'=>'你的信息',
     'corpsecret'=>'你的信息',
     'useCache'=>false, //默认关闭缓存
-    'cachePath'=>__DIR__, //文件缓存的时间
+    'cachePath'=>__DIR__."/cache", //文件缓存的时间
     'expire'=>600 //文件缓存的时间
 );
