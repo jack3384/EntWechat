@@ -19,6 +19,10 @@ class EntSendMsg
     {
         $token=new EntAccessToken();
         $arr['access_token']=$token->getAccessToken();
+        if($arr['access_token']==false){
+            //如果access_token获取失败
+            throw new \Exception("获取access_token失败! ".$token->errorMsg);
+        }
         return $this->curl->post($this->apiUrl,$data,$arr);
     }
 
@@ -27,14 +31,22 @@ class EntSendMsg
         $data=MsgFormater::sendTxt($content,$agentId,$user,$type);
         $token=new EntAccessToken();
         $arr['access_token']=$token->getAccessToken();
+        if($arr['access_token']==false){
+            //如果access_token获取失败
+            throw new \Exception("获取access_token失败! ".$token->errorMsg);
+        }
         return $this->curl->post($this->apiUrl,$data,$arr);
     }
 
     public function sendNews(array $news,$agentId,$user,$type='user')
     {
-        $data=MsgFormater::sendNews($news,$user,$agentId);
+        $data=MsgFormater::sendNews($news,$agentId,$user,$type);
         $token=new EntAccessToken();
         $arr['access_token']=$token->getAccessToken();
+        if($arr['access_token']==false){
+            //如果access_token获取失败
+            throw new \Exception("获取access_token失败! ".$token->errorMsg);
+        }
         return $this->curl->post($this->apiUrl,$data,$arr);
     }
 

@@ -17,6 +17,9 @@ class EntAccessToken
         $mpConfig= include __DIR__."/EntConfig.php";
         $this->queryString['corpId']=empty($corpId)?$mpConfig['corpId']:$corpId;
         $this->queryString['corpsecret']=empty($secret)?$mpConfig['corpsecret']:$secret;
+        if($this->queryString['corpId']=='你的信息'||$this->queryString['corpsecret']=='你的信息'){
+            throw new \Exception('请配置EntConfig.php文件');
+        }
         $this->appID=$this->queryString['corpId'];
         $this->useCache=$this->$mpConfig['useCache'];
         $this->cachePath=$this->$mpConfig['cachePath'];
@@ -67,7 +70,6 @@ class EntAccessToken
                 return $this->accessToken;
             }elseif(isset($data['errcode'])){
                 $this->errorMsg="errcode:".$data['errcode']." errMsg:".$data['errmsg'];
-                //throw new \Exception("Get access_token failed! ".$this->errorMsg);
                 return false;
             }
         }else{

@@ -1,2 +1,21 @@
 {
+    "name": "glacier/ent-wechat",
+    "description": "微信企业号接口SDK",
+    "license": "MIT",
+    "version": "0.1.0",
+    "authors": [
+        {
+            "name": "Jack",
+            "email": "jack3384@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "glacier/widgets": "^0.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "glacier\\EntWeChat\\": "src/"
+        }
+    }
 }
