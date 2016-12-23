@@ -1,5 +1,6 @@
 # EntWechat
-微信企业号SDK开发中
+微信企业号SDK
+安装：composer require glacier/ent-wechat
 
 先配置好EntConfig
 ## EntSendMsg:发送企业号消息
