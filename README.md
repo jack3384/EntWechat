@@ -38,6 +38,7 @@ var_dump($msg);
 具体数组`$user`的结构参看`MsgFormater::entUser`的注释
 删除：`delete($userid)`
 获取user信息：`listUser($status=0)`
+验证用户是否会企业号成员：`oauth($code)`
 **返回值：** 成功返回微信返回的json(已经解码成数组格式)，失败返回`false`，通过`errorMsg`属性可以查看失败原因
 
 例子：
@@ -60,6 +61,24 @@ array(16) {
     string(9) "xx"
     ..此处省略X字
 */
+```
+
+验证用户
+```
+    /**
+     * 原理：
+     * 员工要点击的连接URL构造，点击后会跳转到redirect_uri
+     * https://open.weixin.qq.com/connect/oauth2/authorize?appid=CORPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
+     * 员工点击后，页面将跳转至 redirect_uri?code=CODE&state=STATE，微信加上了queryString企业可根据code参数获得员工的userid。
+     * 脚本根据获取code 找微信验证登录的用户信息
+     * https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token=ACCESS_TOKEN&code=CODE
+     */
+//获取code,这个是微信生成的
+$code=$_GET['code'];
+//如果code获取不到可能不是通过微信来的访问，做点什么。。。。
+$a=new EntUser();
+$res=$a->oauth($code);
+//验证失败返回false,成功返回用户信息数组。
 ```
 
 ## EntMsgHandler:解析用户在应用里发送的消息
