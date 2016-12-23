@@ -23,6 +23,26 @@ class EntMsgHandler implements MsgHandlerInterface
         $this->encodingAesKey = empty($encodingAesKey)?$entConfig['encodingAesKey']:$encodingAesKey;
         $this->token = empty($token)?$entConfig['token']:$token;
         $this->corpId = empty($corpId)?$entConfig['corpId']:$corpId;
+        //首次验证开始
+        if(isset($_GET['echostr'])){
+            $sVerifyMsgSig =$_GET["msg_signature"];
+            $sVerifyTimeStamp =$_GET["timestamp"];
+            $sVerifyNonce = $_GET["nonce"];
+            $sVerifyEchoStr = $_GET["echostr"];
+            // 需要返回的明文
+            $sEchoStr = "";
+            $wxcpt = new WXBizMsgCrypt($this->token, $this->encodingAesKey, $this->corpId);
+            $errCode = $wxcpt->VerifyURL($sVerifyMsgSig, $sVerifyTimeStamp, $sVerifyNonce, $sVerifyEchoStr, $sEchoStr);
+            if ($errCode == 0) {
+                echo $sEchoStr;
+                exit;
+            } else {
+                echo $sEchoStr;
+                print("ERR: " . $errCode . "\n\n");
+            }
+        }
+        //首次验证结束
+
         //实例化微信的解密
         $this->wxcpt = new WXBizMsgCrypt($this->token, $this->encodingAesKey, $this->corpId);
         //解析微信发来的内容并返回数组，
@@ -62,6 +82,7 @@ class EntMsgHandler implements MsgHandlerInterface
         3.将post请求的数据进行xml解析，并将<Encrypt>标签的内容进行解密，解密出来的明文即是用户回复消息的明文，明文格式请参考官方文档
         第2，3步可以用公众平台提供的库函数DecryptMsg来实现。
         */
+
 
 // $sReqMsgSig = HttpUtils.ParseUrl("msg_signature");
         $sReqMsgSig = $_GET['msg_signature'];

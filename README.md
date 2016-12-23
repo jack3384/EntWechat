@@ -83,4 +83,28 @@ $res=$a->oauth($code);
 ```
 
 ## EntMsgHandler:解析用户在应用里发送的消息
-具体看代码吧，主要是接口定义的2个方法。这里不写了
+```
+<?php
+
+require 'vendor/autoload.php';
+
+use glacier\EntWechat\EntMsgHandler;
+use glacier\EntWechat\MsgFormater;
+
+//如果存在首次验证url的时候构造函数会自动解密返回echostr
+$a=new EntMsgHandler();
+
+//得到微信解密后返回数组（微信给的是xml格式已经解码）
+$msg=$a->getMsgArray();
+
+//格式化文本消息字符串,该例子是把微信post过来的数据json序列化后原样当成text输出
+$msg=MsgFormater::text(json_encode($msg,JSON_UNESCAPED_UNICODE));
+//$msg=MsgFormater::news($array); 返回的内容为news类型具体看注释
+
+//将要返回的内容加密
+$c=$a->responseMsg($msg);
+//这里可以做一些log之流的操作
+
+//返回内容给用户
+echo $c;
+```
